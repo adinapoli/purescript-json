@@ -74,6 +74,6 @@ exports.jsonStringify = function jsonStringify(json) {
   return JSON.stringify(json);
 };
 
-exports.jsonStringifyPretty = function jsonStringify(json) {
+exports.jsonStringifyPretty = function jsonStringifyPretty(json) {
   return JSON.stringify(json, null, 4);
 };
