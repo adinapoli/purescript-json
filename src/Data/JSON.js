@@ -73,3 +73,7 @@ exports.objToHash = function objToHash(valueToJSONImpl, fst, snd, obj) {
 exports.jsonStringify = function jsonStringify(json) {
   return JSON.stringify(json);
 };
+
+exports.jsonStringifyPretty = function jsonStringify(json) {
+  return JSON.stringify(json, null, 4);
+};

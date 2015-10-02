@@ -4,7 +4,7 @@ module Data.JSON
     , decode, eitherDecode
     , (.:), (.:?), (.!=)
 
-    , ToJSON, toJSON, encode
+    , ToJSON, toJSON, encode, encodePretty
     , Pair(..), (.=), object
     ) where
 
@@ -185,7 +185,10 @@ object :: Array Pair -> JValue
 object ps = JObject $ M.fromList $ toList $ ps
 
 encode :: forall a. (ToJSON a) => a -> String
-encode a = valueToString $ toJSON a
+encode a = valueToString jsonStringify $ toJSON a
+
+encodePretty :: forall a. (ToJSON a) => a -> String
+encodePretty a = valueToString jsonStringifyPretty $ toJSON a
 
 instance boolToJSON :: ToJSON Boolean where
     toJSON = JBool
@@ -244,6 +247,7 @@ valueToJSONImpl (JBool   b) = unsafeCoerce b
 valueToJSONImpl JNull       = jsNull
 
 foreign import jsonStringify :: JSON -> String
+foreign import jsonStringifyPretty :: JSON -> String
 
-valueToString :: JValue -> String
-valueToString v = jsonStringify $ valueToJSONImpl v
+valueToString :: (JSON -> String) -> JValue -> String
+valueToString renderer v = renderer $ valueToJSONImpl v
